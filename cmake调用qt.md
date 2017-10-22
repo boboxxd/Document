@@ -1,8 +1,9 @@
 # Document
 
+[Cmake] <https://cmake.org/cmake/help/v3.8/manual/cmake-buildsystem.7.html>
 
-[官方手册] <http://doc.qt.io/qt-5/cmake-manual.html>
-eg:
+[Qt官方手册] <http://doc.qt.io/qt-5/cmake-manual.html>
+
 ```
 cmake_minimum_required(VERSION 3.8)
 project(untitled2)
