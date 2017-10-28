@@ -1,6 +1,6 @@
 # Git 入门
 
-
+![](https://ws3.sinaimg.cn/large/006tNc79gy1fkxwbe70hoj30he0hedfy.jpg)
 
 ## 1. Git基本配置
 
