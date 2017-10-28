@@ -45,7 +45,28 @@ LINK_LIBRARIES(
 )
 ```
 
+
+
 **Cmake中调用opencv3**
+
+安装opencv
+
+```
+编译环境安装：
+sudo apt-get install build-essential
+
+必需包安装：
+sudo apt-get install cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
+
+可选包安装：
+sudo apt-get install python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libjasper-dev libdc1394-22-dev
+
+编译
+cmake  -D CMAKE_INSTALL_PREFIX=/usr/local/opencv-3.1.0  -D BUILD_TIFF=ON ..
+make
+```
+
+调用
 
 ```
 set(OpenCV_DIR /usr/local/Cellar/opencv3/3.2.0/share/OpenCV)
