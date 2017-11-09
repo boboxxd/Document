@@ -62,7 +62,7 @@ sudo apt-get install cmake git libgtk2.0-dev pkg-config libavcodec-dev libavform
 sudo apt-get install python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libjasper-dev libdc1394-22-dev
 
 编译
-cmake  -D CMAKE_INSTALL_PREFIX=/usr/local/opencv-3.1.0  -D BUILD_TIFF=ON ..
+cmake  -D CMAKE_INSTALL_PREFIX=/usr/local/opencv-3.1.0  -D BUILD_TIFF=ON -D WITH_FFMPEG=ON  ..
 make
 ```
 
