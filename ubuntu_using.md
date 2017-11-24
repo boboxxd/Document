@@ -256,3 +256,20 @@ fi
 done
 ```
 
+```shell
+#配置IP信息
+sudo ifconfig eth0 192.168.1.1 netmask 255.255.255.0
+
+#配置网关
+sudo route add default gw 192.168.1.1 eth0
+
+#添加路由
+route add 192.168.1.0 mask 255.255.255.0 192.168.1.1
+
+#将目的地址转为192.168.1.60:80
+sudo iptables -t nat -A PREROUTING -d 49.91.240.72 -p tcp --dport 8080 -j DNAT --to-destination 192.168.1.60:80
+
+#将源地址转为49.91.240.72:8080
+sudo iptables -t nat -A POSTROUTING -s 192.168.1.60/24 -p tcp -o eth0 -j SNAT --to-source 49.91.240.72:8080
+```
+
