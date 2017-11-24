@@ -257,19 +257,37 @@ done
 ```
 
 ```shell
-#配置IP信息
-sudo ifconfig eth0 192.168.1.1 netmask 255.255.255.0
+#此脚本用于初始化配置端口映射
+#!/bin/bash                                                                                       
+sudo iptables -t nat -A PREROUTING -d 49.91.240.72 -p tcp --dport 81 -j DNAT --to-destination 192.168.1.64:80    
 
-#配置网关
-sudo route add default gw 192.168.1.1 eth0
+sudo iptables -t nat -A PREROUTING -d 49.91.240.72 -p tcp --dport 554 -j DNAT --to-destination 192.168.1.64:554  
 
-#添加路由
-route add 192.168.1.0 mask 255.255.255.0 192.168.1.1
+sudo iptables -t nat -A PREROUTING -d 49.91.240.72 -p tcp --dport 8000 -j DNAT --to-destination 192.168.1.64:8000                         
+                                                                                                                                          
+sudo iptables -t nat -A POSTROUTING -s 192.168.1.64 -p tcp -o eth0 -j SNAT --to-source 49.91.240.72:81    
 
-#将目的地址转为192.168.1.60:80
-sudo iptables -t nat -A PREROUTING -d 49.91.240.72 -p tcp --dport 8080 -j DNAT --to-destination 192.168.1.60:80
+sudo iptables -t nat -A POSTROUTING -s 192.168.1.64 -p tcp -o eth0 -j SNAT --to-source 49.91.240.72:554  
 
-#将源地址转为49.91.240.72:8080
-sudo iptables -t nat -A POSTROUTING -s 192.168.1.60/24 -p tcp -o eth0 -j SNAT --to-source 49.91.240.72:8080
+sudo iptables -t nat -A POSTROUTING -s 192.168.1.64 -p tcp -o eth0 -j SNAT --to-source 49.91.240.72:8000
 ```
 
+
+查看当前iptables的所有规则
+`sudo iptables -L`
+或者
+`sudo iptables-save`
+
+iptables规则保存到文件
+`sudo sh -c "iptables-save > /etc/iptables.rules"`
+
+从文件恢复iptables的规则
+`sudo iptables-restore /etc/iptables.rules`
+
+开机启动加载iptables规则
+注：配置的规则系统默认重启后就失效，因此做开机启动时加载iptables的配置也有必要。
+在`/etc/network/interfaces`的末尾添加如下一行： 
+`pre-up iptables-restore < /etc/iptables.rules`
+
+如果想在关机的时候自动保存修改过的iptables规则，可添加如下行
+`post-down iptables-save > /etc/iptables.up.rules`
